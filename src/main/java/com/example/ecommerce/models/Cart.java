@@ -16,6 +16,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Cart {
     private String id = UUID.randomUUID().toString();
-    private List<Product> products = new ArrayList<>();
-    private LocalDateTime lastUpdated;
+    private List<Product> products = new ArrayList<>(); ;
+    private LocalDateTime lastUpdated = LocalDateTime.now();
 }
