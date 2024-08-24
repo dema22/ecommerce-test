@@ -4,15 +4,18 @@ import com.example.ecommerce.exception.ResourceNotFoundException;
 import com.example.ecommerce.models.Cart;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.service.CartService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/carts")
+@Validated
 public class CartController {
 
     private final CartService cartService;
@@ -30,7 +33,7 @@ public class CartController {
 
     // Add products to a cart by ID
     @PostMapping("/{id}/products")
-    public ResponseEntity<Cart> addProducts(@PathVariable String id,@RequestBody List<Product> products) throws ResourceNotFoundException {
+    public ResponseEntity<Cart> addProducts(@PathVariable String id, @Valid @RequestBody List<@Valid Product> products) throws ResourceNotFoundException {
         Cart updatedCart = cartService.addProductsToCart(id, products);
         if (updatedCart != null) {
             return ResponseEntity.ok(updatedCart);

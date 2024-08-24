@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-    @NotNull(message = "Product ID cannot be null")
-    private int id;
-    @NotBlank(message = "Description cannot be blank")
+    @NotNull(message = "Product ID cannot be null.")
+    private Integer  id;
+    @NotBlank(message = "Description cannot be blank.")
     private String description;
-    @Min(value = 0, message = "Amount must be positive")
+    @Min(value = 0, message = "Amount must be positive.")
     private double amount;
 }
