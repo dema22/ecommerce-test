@@ -4,6 +4,7 @@ import com.example.ecommerce.models.Cart;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -15,8 +16,8 @@ public class CartRepository {
         return cart;
     }
 
-    public Cart findById(String id) {
-        return carts.get(id);
+    public Optional<Cart> findById(String id) {
+        return Optional.ofNullable(carts.get(id));
     }
 
     public void deleteById(String id) {

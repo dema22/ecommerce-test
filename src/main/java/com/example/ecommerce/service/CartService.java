@@ -1,5 +1,6 @@
 package com.example.ecommerce.service;
 
+import com.example.ecommerce.exception.ResourceNotFoundException;
 import com.example.ecommerce.models.Cart;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.repository.CartRepository;
@@ -22,25 +23,23 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public Cart addProductsToCart(String id, List<Product> products) {
-        Cart cart = cartRepository.findById(id);
-        if (cart != null) {
-            cart.getProducts().addAll(products);
-            cart.setLastUpdated(LocalDateTime.now());
-            return cartRepository.save(cart);
-        }
-        return null;
+    public Cart addProductsToCart(String id, List<Product> products) throws ResourceNotFoundException {
+        return cartRepository.findById(id)
+                .map(cart -> {
+                    cart.getProducts().addAll(products);
+                    cart.setLastUpdated(LocalDateTime.now());
+                    return cartRepository.save(cart);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("You cant add products to the cart! You have provided an invalid cart id: " + id));
     }
 
-    public Cart getCartById(String id) {
-        return cartRepository.findById(id);
+    public Cart getCartById(String id) throws ResourceNotFoundException {
+        return cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart with ID " + id + " not found."));
     }
 
-    public boolean deleteCart(String id) {
-        if (cartRepository.findById(id) != null) {
-            cartRepository.deleteById(id);
-            return true;
-        }
-        return false;
+    public void deleteCart(String id) throws ResourceNotFoundException {
+        cartRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart with ID " + id + " not found."));
+        cartRepository.deleteById(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ecommerce.controller;
 
+import com.example.ecommerce.exception.ResourceNotFoundException;
 import com.example.ecommerce.models.Cart;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.service.CartService;
@@ -29,7 +30,7 @@ public class CartController {
 
     // Add products to a cart by ID
     @PostMapping("/{id}/products")
-    public ResponseEntity<Cart> addProducts(@PathVariable String id, @RequestBody List<Product> products) {
+    public ResponseEntity<Cart> addProducts(@PathVariable String id,@RequestBody List<Product> products) throws ResourceNotFoundException {
         Cart updatedCart = cartService.addProductsToCart(id, products);
         if (updatedCart != null) {
             return ResponseEntity.ok(updatedCart);
@@ -40,7 +41,7 @@ public class CartController {
 
     // Get cart details by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Cart> getCart(@PathVariable String id) {
+    public ResponseEntity<Cart> getCart(@PathVariable String id) throws ResourceNotFoundException {
         Cart cart = cartService.getCartById(id);
         if (cart != null) {
             return ResponseEntity.ok(cart);
@@ -50,13 +51,9 @@ public class CartController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCart(@PathVariable String id) {
-        boolean deleted = cartService.deleteCart(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteCart(@PathVariable String id) throws ResourceNotFoundException {
+        cartService.deleteCart(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
