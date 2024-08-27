@@ -17,7 +17,6 @@ public class CartService {
         this.cartRepository = cartRepository;
     }
 
-    // Create a new cart
     public Cart createCart() {
         Cart cart = new Cart();
         return cartRepository.save(cart);
