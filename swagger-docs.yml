@@ -1,0 +1,111 @@
+openapi: 3.0.0
+info:
+  title: E-Commerce API
+  description: API documentation for E-Commerce Challenge.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+    description: Local server
+paths:
+  /carts:
+    post:
+      summary: Create a new cart
+      responses:
+        '201':
+          description: Cart created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+  /carts/{id}:
+    get:
+      summary: Get cart details by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the cart to retrieve
+      responses:
+        '200':
+          description: Cart details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          description: Cart not found
+    delete:
+      summary: Delete a cart by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the cart to delete
+      responses:
+        '204':
+          description: Cart deleted successfully
+        '404':
+          description: Cart not found
+  /carts/{id}/products:
+    post:
+      summary: Add products to a cart by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the cart to which products will be added
+      requestBody:
+        description: List of products to add to the cart
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Cart updated with new products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          description: Cart not found
+        '400':
+          description: Invalid input
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "123"
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        lastUpdated:
+          type: string
+          format: date-time
+          example: "2024-08-27T16:40:22"
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 456
+        description:
+          type: string
+          example: "Sample Product"
+        amount:
+          type: number
+          format: float
+          example: 29.99

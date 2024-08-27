@@ -6,11 +6,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+
+import static org.hamcrest.Matchers.greaterThan;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -132,6 +135,11 @@ class CartControllerIntegrationTest {
 		mockMvc.perform(post("/api/carts/" + cart.getId() + "/products")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(productJson))
-				.andExpect(status().isBadRequest());
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.statusCode").value(HttpStatus.BAD_REQUEST.value()))
+				.andExpect(jsonPath("$.descriptionCode").value(HttpStatus.BAD_REQUEST.getReasonPhrase()))
+				.andExpect(jsonPath("$.errors").isArray())
+				.andExpect(jsonPath("$.errors.length()").value(greaterThan(0))) // Check 'errors' array is not empty
+				.andExpect(jsonPath("$.path").exists());
 	}
 }
