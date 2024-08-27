@@ -3,9 +3,12 @@ package com.example.ecommerce.repository;
 import com.example.ecommerce.models.Cart;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class CartRepository {
@@ -22,5 +25,9 @@ public class CartRepository {
 
     public void deleteById(String id) {
         carts.remove(id);
+    }
+
+    public List<Cart> findAll() {
+        return new ArrayList<>(carts.values());
     }
 }

@@ -21,12 +21,6 @@ class CartControllerIntegrationTest {
 	@Autowired
 	private CartRepository cartRepository;
 
-	@BeforeEach
-	void setup() {
-		// Clear the repository before each test
-		cartRepository.deleteById("1");
-	}
-
 	@Test
 	void testCreateCart() throws Exception {
 		mockMvc.perform(post("/api/carts")

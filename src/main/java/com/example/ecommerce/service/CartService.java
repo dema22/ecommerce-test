@@ -7,6 +7,7 @@ import com.example.ecommerce.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -40,5 +41,15 @@ public class CartService {
         cartRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart with ID " + id + " not found."));
         cartRepository.deleteById(id);
+    }
+
+    public void deleteInactiveCarts() {
+        LocalDateTime now = LocalDateTime.now();
+
+        List<Cart> allCarts = cartRepository.findAll();
+
+        allCarts.stream()
+                .filter(cart -> ChronoUnit.MINUTES.between(cart.getLastUpdated(), now) >= 3)
+                .forEach(cart -> cartRepository.deleteById(cart.getId()));
     }
 }
