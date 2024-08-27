@@ -6,7 +6,7 @@
 
    1. Build Tool: Use Maven for dependency management and build automation.
    2. Framework: Use Spring Boot for quick setup, REST API creation, and dependency injection.
-   3. Testing: Use JUnit and Mockito for unit and integration tests.
+   3. Testing: Doing end to end validation with integration tests.
 
 # Application Architecture
 
