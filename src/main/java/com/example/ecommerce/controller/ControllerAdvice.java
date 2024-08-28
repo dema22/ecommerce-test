@@ -34,7 +34,7 @@ public class ControllerAdvice {
         return new ResponseEntity<>(errorResp, HttpStatus.BAD_REQUEST);
     }
 
-    // 404: Not found -> Indicates that the browser was able to communicate with a given server, but the server could not find what was requested.
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
     protected ErrorResp handleEntityNotFound(HttpServletRequest request, ResourceNotFoundException ex) {

@@ -49,7 +49,7 @@ public class CartService {
         List<Cart> allCarts = cartRepository.findAll();
 
         allCarts.stream()
-                .filter(cart -> ChronoUnit.MINUTES.between(cart.getLastUpdated(), now) >= 3)
+                .filter(cart -> ChronoUnit.MINUTES.between(cart.getLastUpdated(), now) >= 10)
                 .forEach(cart -> cartRepository.deleteById(cart.getId()));
     }
 }

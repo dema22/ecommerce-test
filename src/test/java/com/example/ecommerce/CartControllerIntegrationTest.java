@@ -45,7 +45,6 @@ class CartControllerIntegrationTest {
 
 		String productJson = "[{\"id\": 1, \"description\": \"Sample product\", \"amount\": 10.0}]";
 
-		// Perform the mock request using the Cart ID
 		mockMvc.perform(post("/api/carts/" + cart.getId() + "/products")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(productJson))
@@ -131,7 +130,6 @@ class CartControllerIntegrationTest {
 
 		String productJson = "[{\"id\": null, \"description\": \"\", \"amount\": -10.0}]";
 
-		// Perform the mock request using the Cart ID
 		mockMvc.perform(post("/api/carts/" + cart.getId() + "/products")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(productJson))

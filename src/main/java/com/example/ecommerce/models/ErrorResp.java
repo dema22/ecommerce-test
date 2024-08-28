@@ -15,6 +15,6 @@ public class ErrorResp {
     private Integer statusCode;
     private String descriptionCode;
     private String messageError;
-    private List<ErrorDetail> errors; // Use this if you want to list detailed errors
+    private List<ErrorDetail> errors;
     private String path;
 }

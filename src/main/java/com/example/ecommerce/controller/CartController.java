@@ -31,14 +31,14 @@ public class CartController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newCart);
     }
 
-    // Add products to a cart by ID
+
     @PostMapping("/{id}/products")
     public ResponseEntity<Cart> addProducts(@PathVariable String id, @Valid @RequestBody List<@Valid Product> products) throws ResourceNotFoundException {
         Cart updatedCart = cartService.addProductsToCart(id, products);
         return ResponseEntity.ok(updatedCart);
     }
 
-    // Get cart details by ID
+
     @GetMapping("/{id}")
     public ResponseEntity<Cart> getCart(@PathVariable String id) throws ResourceNotFoundException {
         Cart cart = cartService.getCartById(id);
